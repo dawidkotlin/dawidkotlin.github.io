@@ -5130,7 +5130,7 @@ function render_statichop_13475049() {
     F.line = 31;
     var tmp_13475065 = tree_12630445(37, []);
     F.line = 31;
-    add_12620072(tmp_13475065, text_12630548(makeNimstrLit("Serwer jest napisany bez u\xC5\xBCycia \"framework\xC3\xB3w\"")));
+    add_12620072(tmp_13475065, text_12630548(makeNimstrLit("Brak \"framework\xC3\xB3w\", wszystko napisane od zera")));
     F.line = 31;
     add_12620072(tmp_13475059, tmp_13475065);
     F.line = 31;

@@ -28,7 +28,7 @@ proc renderStatichop: VNode =
                   li text"Obsługiwana jest rejestracja, logowanie, sesje, historia zakupów itp."
                   li text"Sklep jest wielojęzykowy"
                   li text"Bazą danych jest SQLite 3"
-                  li text "Serwer jest napisany bez użycia \"frameworków\""
+                  li text "Napisane bez użycia \"frameworków\", wszystko napisane od zera"
           br()
           video(autoplay="autoplay", loop="loop"):
             source(src="data/staticshop.webm", `type`="video/webm")
