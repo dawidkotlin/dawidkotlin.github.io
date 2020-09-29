@@ -489,13 +489,13 @@ function aux_write_stack_trace_1325038(f_1325040) {
     
     L6: do {
       var j_1340236 = 0;
-      var colontmp__11955643 = 0;
-      colontmp__11955643 = (i_1325051 - 1);
-      var res_11955648 = colontmp__11955643;
+      var colontmp__11955661 = 0;
+      colontmp__11955661 = (i_1325051 - 1);
+      var res_11955666 = colontmp__11955661;
       L7: do {
           L8: while (true) {
-          if (!(0 <= res_11955648)) break L8;
-            j_1340236 = res_11955648;
+          if (!(0 <= res_11955666)) break L8;
+            j_1340236 = res_11955666;
             add_1307042(result_1325041, 0, temp_frames_1325060[j_1340236].Field0);
             if ((0 < temp_frames_1325060[j_1340236].Field1)) {
             if (result_1325041[0] != null) { result_1325041[0] = (result_1325041[0]).concat(makeNimstrLit(", line: ")); } else { result_1325041[0] = makeNimstrLit(", line: "); };
@@ -503,7 +503,7 @@ function aux_write_stack_trace_1325038(f_1325040) {
             }
             
             if (result_1325041[0] != null) { result_1325041[0] = (result_1325041[0]).concat(makeNimstrLit("\x0A")); } else { result_1325041[0] = makeNimstrLit("\x0A"); };
-            res_11955648 -= 1;
+            res_11955666 -= 1;
           }
       } while(false);
     } while(false);
@@ -923,17 +923,17 @@ function enlarge_11935098(s_11935103) {
       F.line = 40;
       var i_11935189 = 0;
       F.line = 39;
-      var colontmp__11955675 = 0;
+      var colontmp__11955693 = 0;
       F.line = 40;
-      colontmp__11955675 = (n_11935108 != null ? (n_11935108.length-1) : -1);
+      colontmp__11955693 = (n_11935108 != null ? (n_11935108.length-1) : -1);
       F.line = 56;
-      var res_11955680 = 0;
+      var res_11955698 = 0;
       L3: do {
         F.line = 57;
           L4: while (true) {
-          if (!(res_11955680 <= colontmp__11955675)) break L4;
+          if (!(res_11955698 <= colontmp__11955693)) break L4;
             F.line = 40;
-            i_11935189 = res_11955680;
+            i_11935189 = res_11955698;
             if (is_filled_11771418(n_11935108[chckIndx(i_11935189, 0, (n_11935108 != null ? n_11935108.length : 0)+0-1)-0].Field0)) {
             F.line = 42;
             var j_11940139 = subInt(-1, raw_get_known_hc_11935244(s_11935103, n_11935108[chckIndx(i_11935189, 0, (n_11935108 != null ? n_11935108.length : 0)+0-1)-0].Field1, n_11935108[chckIndx(i_11935189, 0, (n_11935108 != null ? n_11935108.length : 0)+0-1)-0].Field0));
@@ -942,7 +942,7 @@ function enlarge_11935098(s_11935103) {
             }
             
             F.line = 59;
-            res_11955680 = addInt(res_11955680, 1);
+            res_11955698 = addInt(res_11955698, 1);
           }
       } while(false);
     } while(false);
@@ -997,17 +997,17 @@ function to_hash_set_11871073(keys_11871077) {
       F.line = 228;
       var key_11885484 = {Field0: 0, Field1: 0};
       F.line = 3;
-      var i_11955636 = 0;
+      var i_11955654 = 0;
       L2: do {
         F.line = 4;
           L3: while (true) {
-          if (!(i_11955636 < (keys_11871077 != null ? keys_11871077.length : 0))) break L3;
+          if (!(i_11955654 < (keys_11871077 != null ? keys_11871077.length : 0))) break L3;
             F.line = 228;
-            nimCopy(key_11885484, keys_11871077[chckIndx(i_11955636, 0, (keys_11871077 != null ? keys_11871077.length : 0)+0-1)-0], NTI11871035);
+            nimCopy(key_11885484, keys_11871077[chckIndx(i_11955654, 0, (keys_11871077 != null ? keys_11871077.length : 0)+0-1)-0], NTI11871035);
             F.line = 228;
             incl_11885544(result_11871092[0], key_11885484);
             F.line = 6;
-            i_11955636 = addInt(i_11955636, 1);
+            i_11955654 = addInt(i_11955654, 1);
           }
       } while(false);
     } while(false);
@@ -1016,10 +1016,13 @@ function to_hash_set_11871073(keys_11871077) {
   return result_11871092[0];
 
 }
-var grid_size_11871015 = 20;
+var grid_size_11871015 = 10;
 var walls_11955571 = to_hash_set_11871073([{Field0: 1, Field1: 1}, {Field0: 2, Field1: 1}, {Field0: 1, Field1: 2}, {Field0: 8, Field1: 1}, {Field0: 8, Field1: 2}, {Field0: 7, Field1: 1}, {Field0: 1, Field1: 7}, {Field0: 1, Field1: 8}, {Field0: 2, Field1: 8}, {Field0: 8, Field1: 8}, {Field0: 8, Field1: 7}, {Field0: 7, Field1: 8}]);
 var snake_11955573 = [null];
 var fruit_pos_11955574 = [{Field0: 0, Field1: 0}];
 var game_over_11955575 = [false];
-var canvas_size_12025255 = 480;
-var cell_size_12025256 = Math.trunc(canvas_size_12025255 / grid_size_11871015);
+var prev_vec_11955576 = [{Field0: 0, Field1: 0}];
+var snake_canvas_focused_11955577 = [false];
+var timeout_11955578 = [null];
+var canvas_size_12020449 = 480;
+var cell_size_12020450 = Math.trunc(canvas_size_12020449 / grid_size_11871015);

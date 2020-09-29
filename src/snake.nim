@@ -1,7 +1,7 @@
 import vecs, random, sets, jscanvas, colors, dom
 
 let
-  gridSize = 20
+  gridSize = 10
   walls: HashSet[Vec2] = toHashSet [
     (1, 1), (2, 1), (1, 2), # NW corner
     (8, 1), (8, 2), (7, 1), # NE corner
@@ -12,6 +12,9 @@ var
   snake*: seq[Vec2]
   fruitPos*: Vec2
   gameOver*: bool
+  prevVec*: Vec2
+  snakeCanvasFocused*: bool # not set in this file!
+  timeout: Timeout
 
 proc resetFruit =
   while true:
@@ -22,19 +25,28 @@ proc resetFruit =
 
 proc resetState* =
   snake = @[(5, 5), (6, 5), (7, 5)]
+  prevVec = (1, 0)
   resetFruit()
   gameOver = false
 
-proc move*(vec: Vec2) =
-  let headPos = snake[^1] + vec
-  if headPos in walls or headPos.x notin 0..<gridSize or headPos.y notin 0..<gridSize or headPos in snake:
-    gameOver = true
-  elif headPos == fruitPos:
-    resetFruit()
-    snake.add headPos
-  else:
-    for pos in snake.mitems:
-      pos += vec
+proc moveSnake*(vec: Vec2) =
+  if not gameOver:
+    let vec =
+      if vec == (-prevVec.x, -prevVec.y): prevVec
+      else: vec
+    let newHead = snake[^1] + vec
+    if newHead in walls or newHead.x notin 0..<gridSize or newHead.y notin 0..<gridSize or newHead in snake:
+      gameOver = true
+      timeout.clearTimeout()
+      timeout = nil
+    elif newHead == fruitPos:
+      resetFruit()
+      snake.add newHead
+      prevVec = vec
+    else:
+      snake.delete 0
+      snake.add newHead
+      prevVec = vec
 
 let
   canvasSize* = 480
@@ -45,9 +57,9 @@ proc drawCell(ctx: CanvasContext, color: Color, pos: Vec2) =
   ctx.fillStyle = $color
   ctx.fillRect pos.x, pos.y, cellSize, cellSize
 
-proc redraw =
+proc redrawCanvas =
   let ctx = document.getElementById("snakeCanvas").CanvasElement.getContext2D()
-  ctx.fillStyle = $colGray
+  ctx.fillStyle = $colWhite
   ctx.fillRect 0, 0, canvasSize, canvasSize
   ctx.drawCell colGreenYellow, fruitPos
   for wallPos in walls:
@@ -58,22 +70,49 @@ proc redraw =
     else:
       ctx.drawCell colYellow, snakePos
 
+const
+  timeoutMs = 750
+
+proc timeoutCb =
+  moveSnake prevVec
+  timeout = setTimeout(timeoutCb, timeoutMs)
+  redrawCanvas()
+
+proc onFocus* =
+  snakeCanvasFocused = true
+  if timeout == nil:
+    timeout = setTimeout(timeoutCb, timeoutMs) 
+
+proc onFocusOut* =
+  snakeCanvasFocused = false
+  if timeout != nil:
+    timeout.clearTimeout()
+  timeout = nil
+
 proc start* =
   resetState()
-  redraw()
+  redrawCanvas()
+  if timeout != nil:
+    timeout.clearTimeout()
+  timeout = setTimeout(timeoutCb, timeoutMs)
 
 proc onKeyDown*(ev: Event) =
-  echo ":D"
   let key = ev.KeyboardEvent.key
-  if key == "Left" or key == "ArrowLeft" or key == "a": 
-    move (-1, 0)
+  if key == "r":
+    start()
+  else:
+    if key == "Left" or key == "ArrowLeft" or key == "a": 
+      moveSnake (-1, 0)
+    elif key == "Right" or key == "ArrowRight" or key == "d":
+      moveSnake (1, 0)
+    elif key == "Down" or key == "ArrowDown" or key == "s":
+      moveSnake (0, 1)
+    elif key == "Up" or key == "ArrowUp" or key == "w":
+      moveSnake (0, -1)
+    else:
+      return
     ev.preventDefault()
-  elif key == "Right" or key == "ArrowRight" or key == "d":
-    move (1, 0)
-    ev.preventDefault()
-  elif key == "Down" or key == "ArrowDown" or key == "s":
-    move (0, 1)
-    ev.preventDefault()
-  elif key == "Up" or key == "ArrowUp" or key == "w":
-    move (0, -1)
-    ev.preventDefault()
+    redrawCanvas()
+    if timeout != nil:
+      timeout.clearTimeout()
+    timeout = setTimeout(timeoutCb, timeoutMs)

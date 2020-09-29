@@ -81,18 +81,28 @@ proc renderNetchess: VNode =
             tdiv(class="column"):
               img(src="data/netchess.gif")
 
-# ## Snake
-# section(class="hero is-medium is-success"):
-#   tdiv(class="hero-body"):
-#     tdiv(class="container"):
-#       tdiv(class="columns"):
-#         tdiv(class="column is-half"):
-#           h1(class="title"): text"Snake"
-#           h2(class="subtitle"): text"Klasyczna gra"
-#           button(class="button is-medium", onClick=snake.start): text"Start"
-#         tdiv(class="column is-half"):
-#           canvas(id="snakeCanvas", width = $snake.canvasSize, height = $snake.canvasSize):
-#             proc onKeyDown(ev: Event, n: VNode) = snake.onKeyDown(ev)
+proc renderSnake: VNode =
+  result = buildHtml:
+    section(class="hero is-medium is-success"):
+      tdiv(class="hero-body"):
+        tdiv(class="container"):
+          tdiv(class="columns"):
+            tdiv(class="column is-half"):
+              h1(class="title"): text"Snake"
+              h2(class="subtitle"):
+                if gameOver:
+                  text"Koniec gry"
+                elif snakeCanvasFocused:
+                  text"Używaj strzałek aby się poruszać"
+                else:
+                  text"Kliknij na okno po prawej aby zacząć grać"
+              button(class="button is-medium is-white", onClick=snake.start):
+                text"Zacznij od nowa"
+            tdiv(class="column is-half"):
+              canvas(class="has-background-white", id="snakeCanvas", width = $snake.canvasSize, height = $snake.canvasSize, tabIndex="1000"):
+                proc onKeyDown(ev: Event, n: VNode) = snake.onKeyDown(ev)
+                proc onFocus = snake.onFocus()
+                proc onFocusOut = snake.onFocusOut()
 
 proc renderLocalChess: VNode =
   result = buildHtml:
@@ -218,3 +228,4 @@ setRenderer proc: VNode =
     renderNetchess()
     renderLocalChess()
     renderTodoList()
+    # renderSnake()
