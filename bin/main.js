@@ -3164,7 +3164,7 @@ function rand_13510125() {
   return result_13510130;
 
 }
-var todo_items_13510237 = [[{str: "Obudzić się", done: true, id: toJSStr(cstrToNimstr((rand_13510125())+""))}, {str: "Zrobić zakupy", done: false, id: toJSStr(cstrToNimstr((rand_13510125())+""))}, {str: "Zapłacić rachunki", done: false, id: toJSStr(cstrToNimstr((rand_13510125())+""))}]];
+var todo_items_13510237 = [[{str: "Obudzić się", id: toJSStr(cstrToNimstr((rand_13510125())+"")), done: false}, {str: "Zrobić zakupy", id: toJSStr(cstrToNimstr((rand_13510125())+"")), done: false}, {str: "Zapłacić rachunki", id: toJSStr(cstrToNimstr((rand_13510125())+"")), done: false}]];
 function new_seq_13370012(len_13370015) {
   var result_13370017 = null;
 
@@ -6659,8 +6659,8 @@ function delete_13535241(x_13535246, x_13535246_Idx, i_13535247) {
 
   
 }
-function find_13525021(a_13525025, item_13525026) {
-  var result_13525027 = 0;
+function find_13525023(a_13525027, item_13525028) {
+  var result_13525029 = 0;
 
   var F={procname:"find.find",prev:framePtr,filename:"system.nim",line:0};
   framePtr = F;
@@ -6671,23 +6671,23 @@ function find_13525021(a_13525025, item_13525026) {
       F.line = 184;
       var i_13545412 = 0;
       F.line = 185;
-      var l_13545413 = (a_13525025 != null ? a_13525025.length : 0);
+      var l_13545413 = (a_13525027 != null ? a_13525027.length : 0);
       L2: do {
         F.line = 186;
           L3: while (true) {
           if (!(i_13545412 < l_13545413)) break L3;
             F.line = 1751;
-            i_13535214 = a_13525025[chckIndx(i_13545412, 0, (a_13525025 != null ? a_13525025.length : 0)+0-1)-0];
-            if ((i_13535214 == item_13525026)) {
+            i_13535214 = a_13525027[chckIndx(i_13545412, 0, (a_13525027 != null ? a_13525027.length : 0)+0-1)-0];
+            if ((i_13535214 == item_13525028)) {
             F.line = 1752;
             break BeforeRet;
             }
             
             F.line = 1753;
-            result_13525027 = addInt(result_13525027, 1);
+            result_13525029 = addInt(result_13525029, 1);
             F.line = 188;
             i_13545412 = addInt(i_13545412, 1);
-            if (!(((a_13525025 != null ? a_13525025.length : 0) == l_13545413))) {
+            if (!(((a_13525027 != null ? a_13525027.length : 0) == l_13545413))) {
             F.line = 189;
             failed_assert_impl_1267680(makeNimstrLit("/home/dk/.choosenim/toolchains/nim-1.2.6/lib/system/iterators.nim(189, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
@@ -6696,11 +6696,11 @@ function find_13525021(a_13525025, item_13525026) {
       } while(false);
     } while(false);
     F.line = 1754;
-    result_13525027 = -1;
+    result_13525029 = -1;
   } while (false);
   framePtr = F.prev;
 
-  return result_13525027;
+  return result_13525029;
 
 }
 function render_todo_list_13510318() {
@@ -6723,20 +6723,25 @@ function render_todo_list_13510318() {
       
     }
               function HEX3Aanonymous_13525001(item_13525003) {
-                  function HEX3Aanonymous_13525019() {
-                    var F={procname:":anonymous.:anonymous",prev:framePtr,filename:"main.nim",line:0};
-                    framePtr = F;
-                      F.line = 203;
-                      delete_13535241(todo_items_13510237, 0, chckRange(find_13525021(todo_items_13510237[0], item_13525003), 0, 2147483647));
-                    framePtr = F.prev;
+                    function HEX3Aanonymous_13525019() {
+                        function cb_13525021() {
+                          var F={procname:":anonymous.cb",prev:framePtr,filename:"main.nim",line:0};
+                          framePtr = F;
+                            F.line = 208;
+                            delete_13535241(todo_items_13510237, 0, chckRange(find_13525023(todo_items_13510237[0], item_13525003), 0, 2147483647));
+                            F.line = 209;
+                            redraw_13365414(kxi_12812284[0]);
+                          framePtr = F.prev;
 
-                    
-                  }
-                    function HEX3Aanonymous_13540429() {
+                          
+                        }
+
                       var F={procname:":anonymous.:anonymous",prev:framePtr,filename:"main.nim",line:0};
                       framePtr = F;
                         F.line = 206;
                         item_13525003.done = true;
+                        F.line = 210;
+                        setTimeout(cb_13525021, 750);
                       framePtr = F.prev;
 
                       
@@ -6757,19 +6762,17 @@ function render_todo_list_13510318() {
                   add_12610072(tmp_13510339, text_12620601(item_13525003.str));
                   F.line = 202;
                   add_12610072(tmp_13510338, tmp_13510339);
-                  F.line = 203;
-                  add_event_handler_13375154(tmp_13510338, 0, HEX3Aanonymous_13525019, kxi_12812284[0]);
                   }
                   else {
-                    F.line = 205;
+                    F.line = 204;
                     add_12610072(tmp_13510338, text_12620601(item_13525003.str));
-                    F.line = 206;
-                    add_event_handler_13375154(tmp_13510338, 0, HEX3Aanonymous_13540429, kxi_12812284[0]);
+                    F.line = 205;
+                    add_event_handler_13375154(tmp_13510338, 0, HEX3Aanonymous_13525019, kxi_12812284[0]);
                   }
                   
-                  F.line = 206;
+                  F.line = 205;
                   add_12610072(tmp_13510337, tmp_13510338);
-                  F.line = 206;
+                  F.line = 205;
                   add_12610072(tmp_13510336, tmp_13510337);
                 framePtr = F.prev;
 
@@ -6898,21 +6901,21 @@ function render_todo_list_13510318() {
             }
         } while(false);
       } while(false);
-      F.line = 206;
+      F.line = 205;
       add_12610072(tmp_13510333, tmp_13510336);
     }
     
-    F.line = 206;
+    F.line = 205;
     add_12610072(tmp_13510329, tmp_13510333);
-    F.line = 206;
+    F.line = 205;
     add_12610072(tmp_13510328, tmp_13510329);
-    F.line = 206;
+    F.line = 205;
     add_12610072(tmp_13510324, tmp_13510328);
-    F.line = 206;
+    F.line = 205;
     add_12610072(tmp_13510323, tmp_13510324);
-    F.line = 206;
+    F.line = 205;
     add_12610072(tmp_13510322, tmp_13510323);
-    F.line = 206;
+    F.line = 205;
     add_12610072(tmp_13510321, tmp_13510322);
     result_13510320 = tmp_13510321;
   framePtr = F.prev;
@@ -6920,32 +6923,32 @@ function render_todo_list_13510318() {
   return result_13510320;
 
 }
-function HEX3Aanonymous_13540504() {
-  var result_13540506 = null;
+function HEX3Aanonymous_13540501() {
+  var result_13540503 = null;
 
   var F={procname:"main.:anonymous",prev:framePtr,filename:"main.nim",line:0};
   framePtr = F;
-    F.line = 209;
-    F.line = 209;
-    var tmp_13540508 = tree_12620445(43, []);
-    F.line = 210;
-    add_12610072(tmp_13540508, render_welcome_13461101());
-    F.line = 211;
-    add_12610072(tmp_13540508, render_statichop_13465049());
-    F.line = 212;
-    add_12610072(tmp_13540508, render_nation_detect_13475066());
     F.line = 213;
-    add_12610072(tmp_13540508, render_genderdetect_13470082());
+    F.line = 213;
+    var tmp_13540505 = tree_12620445(43, []);
     F.line = 214;
-    add_12610072(tmp_13540508, render_netchess_13480062());
+    add_12610072(tmp_13540505, render_welcome_13461101());
     F.line = 215;
-    add_12610072(tmp_13540508, render_local_chess_13485070());
+    add_12610072(tmp_13540505, render_statichop_13465049());
     F.line = 216;
-    add_12610072(tmp_13540508, render_todo_list_13510318());
-    result_13540506 = tmp_13540508;
+    add_12610072(tmp_13540505, render_nation_detect_13475066());
+    F.line = 217;
+    add_12610072(tmp_13540505, render_genderdetect_13470082());
+    F.line = 218;
+    add_12610072(tmp_13540505, render_netchess_13480062());
+    F.line = 219;
+    add_12610072(tmp_13540505, render_local_chess_13485070());
+    F.line = 220;
+    add_12610072(tmp_13540505, render_todo_list_13510318());
+    result_13540503 = tmp_13540505;
   framePtr = F.prev;
 
-  return result_13540506;
+  return result_13540503;
 
 }
-set_renderer_13370238(HEX3Aanonymous_13540504, "ROOT", null);
+set_renderer_13370238(HEX3Aanonymous_13540501, "ROOT", null);

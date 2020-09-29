@@ -163,9 +163,9 @@ type
 
 var
   todoItems = @[
-    TodoItem(str: "Obudzić się", done: true, id: $rand(int)),
-    TodoItem(str: "Zrobić zakupy", done: false, id: $rand(int)),
-    TodoItem(str: "Zapłacić rachunki", done: false, id: $rand(int))]
+    TodoItem(str: "Obudzić się", id: $rand(int)),
+    TodoItem(str: "Zrobić zakupy", id: $rand(int)),
+    TodoItem(str: "Zapłacić rachunki", id: $rand(int))]
 
 proc renderTodoList: VNode =
   result = buildHtml:
@@ -200,10 +200,14 @@ proc renderTodoList: VNode =
                             a:
                               if item.done:
                                 strikethrough text item.str
-                                proc onClick = todoItems.delete todoItems.find(item)
                               else:
                                 text item.str
-                                proc onClick = item.done = true
+                                proc onClick =
+                                  item.done = true
+                                  proc cb =
+                                    todoItems.delete todoItems.find(item)
+                                    redraw()
+                                  discard setTimeout(cb, 750)
 
 setRenderer proc: VNode =
   result = buildHtml tdiv:
