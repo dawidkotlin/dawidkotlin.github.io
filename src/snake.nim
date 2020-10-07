@@ -1,4 +1,5 @@
 import vecs, random, sets, jscanvas, colors, dom
+include ../karax/karax/prelude
 
 let
   gridSize = 10
@@ -14,7 +15,7 @@ var
   gameOver*: bool
   prevVec*: Vec2
   snakeCanvasFocused*: bool # not set in this file!
-  timeout: Timeout
+  timeout*: Timeout
 
 proc resetFruit =
   while true:
@@ -48,71 +49,106 @@ proc moveSnake*(vec: Vec2) =
       snake.add newHead
       prevVec = vec
 
-let
-  canvasSize* = 480
-  cellSize = canvasSize div gridSize
-
-proc drawCell(ctx: CanvasContext, color: Color, pos: Vec2) =
-  let pos = (x: pos.x*cellSize, y: pos.y*cellSize)
-  ctx.fillStyle = $color
-  ctx.fillRect pos.x, pos.y, cellSize, cellSize
-
-proc redrawCanvas =
-  let ctx = document.getElementById("snakeCanvas").CanvasElement.getContext2D()
-  ctx.fillStyle = $colWhite
-  ctx.fillRect 0, 0, canvasSize, canvasSize
-  ctx.drawCell colGreenYellow, fruitPos
-  for wallPos in walls:
-    ctx.drawCell colRed, wallPos
-  for snakePos in snake:
-    if snakePos == snake[^1]:
-      ctx.drawCell colPurple, snakePos
-    else:
-      ctx.drawCell colYellow, snakePos
-
 const
   timeoutMs = 750
 
 proc timeoutCb =
   moveSnake prevVec
   timeout = setTimeout(timeoutCb, timeoutMs)
-  redrawCanvas()
+  redraw()
 
-proc onFocus* =
-  snakeCanvasFocused = true
+proc start* =
   if timeout == nil:
-    timeout = setTimeout(timeoutCb, timeoutMs) 
+    timeout = setTimeout(timeoutCb, timeoutMs)
 
-proc onFocusOut* =
+proc pause* =
   snakeCanvasFocused = false
   if timeout != nil:
     timeout.clearTimeout()
   timeout = nil
 
-proc start* =
-  resetState()
-  redrawCanvas()
-  if timeout != nil:
-    timeout.clearTimeout()
-  timeout = setTimeout(timeoutCb, timeoutMs)
+proc renderSnakeBoard*: VNode =
+  result = buildHtml tdiv:
+    for y in 0 ..< gridSize:
+      tdiv(class="is-flex"):
+        for x in 0 ..< gridSize:
+          let here = (x, y)
+          if here == fruitPos:
+            a(class="button is-primary")
+          elif here == snake[^1]:
+            a(class="button is-link")
+          elif here in snake:
+            a(class="button is-info")
+          elif here in walls:
+            a(class="button is-danger")
+          else:
+            a(class="button is-dark")
 
-proc onKeyDown*(ev: Event) =
-  let key = ev.KeyboardEvent.key
-  if key == "r":
-    start()
-  else:
-    if key == "Left" or key == "ArrowLeft" or key == "a": 
-      moveSnake (-1, 0)
-    elif key == "Right" or key == "ArrowRight" or key == "d":
-      moveSnake (1, 0)
-    elif key == "Down" or key == "ArrowDown" or key == "s":
-      moveSnake (0, 1)
-    elif key == "Up" or key == "ArrowUp" or key == "w":
-      moveSnake (0, -1)
-    else:
-      return
-    ev.preventDefault()
-    redrawCanvas()
-    if timeout != nil:
-      timeout.clearTimeout()
-    timeout = setTimeout(timeoutCb, timeoutMs)
+# let
+#   canvasSize* = 480
+#   cellSize = canvasSize div gridSize
+
+# proc drawCell(ctx: CanvasContext, color: Color, pos: Vec2) =
+#   let pos = (x: pos.x*cellSize, y: pos.y*cellSize)
+#   ctx.fillStyle = $color
+#   ctx.fillRect pos.x, pos.y, cellSize, cellSize
+
+# proc redrawCanvas =
+#   let ctx = document.getElementById("snakeCanvas").CanvasElement.getContext2D()
+#   ctx.fillStyle = $colWhite
+#   ctx.fillRect 0, 0, canvasSize, canvasSize
+#   ctx.drawCell colGreenYellow, fruitPos
+#   for wallPos in walls:
+#     ctx.drawCell colRed, wallPos
+#   for snakePos in snake:
+#     if snakePos == snake[^1]:
+#       ctx.drawCell colPurple, snakePos
+#     else:
+#       ctx.drawCell colYellow, snakePos
+
+# const
+#   timeoutMs = 750
+
+# proc timeoutCb =
+#   moveSnake prevVec
+#   timeout = setTimeout(timeoutCb, timeoutMs)
+#   redrawCanvas()
+
+# proc onFocus* =
+#   snakeCanvasFocused = true
+#   if timeout == nil:
+#     timeout = setTimeout(timeoutCb, timeoutMs) 
+
+# proc onFocusOut* =
+#   snakeCanvasFocused = false
+#   if timeout != nil:
+#     timeout.clearTimeout()
+#   timeout = nil
+
+# proc start* =
+#   resetState()
+#   redrawCanvas()
+#   if timeout != nil:
+#     timeout.clearTimeout()
+#   timeout = setTimeout(timeoutCb, timeoutMs)
+
+# proc onKeyDown*(ev: Event) =
+#   let key = ev.KeyboardEvent.key
+#   if key == "r":
+#     start()
+#   else:
+#     if key == "Left" or key == "ArrowLeft" or key == "a": 
+#       moveSnake (-1, 0)
+#     elif key == "Right" or key == "ArrowRight" or key == "d":
+#       moveSnake (1, 0)
+#     elif key == "Down" or key == "ArrowDown" or key == "s":
+#       moveSnake (0, 1)
+#     elif key == "Up" or key == "ArrowUp" or key == "w":
+#       moveSnake (0, -1)
+#     else:
+#       return
+#     ev.preventDefault()
+#     redrawCanvas()
+#     if timeout != nil:
+#       timeout.clearTimeout()
+#     timeout = setTimeout(timeoutCb, timeoutMs)

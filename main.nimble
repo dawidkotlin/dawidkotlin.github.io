@@ -7,4 +7,4 @@ binDir        = "bin"
 bin           = @["main.js"]
 backend       = "js"
 
-requires "nim >= 1.2.6", "karax#head", "jscanvas#head"
+requires "nim >= 1.2.6", "jscanvas#head"

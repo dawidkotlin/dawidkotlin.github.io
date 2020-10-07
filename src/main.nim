@@ -1,5 +1,5 @@
-import dom, sugar, strutils, karax/vstyles, chess, options, tables, random, snake
-include karax/prelude
+import dom, sugar, strutils, ../karax/karax/vstyles, chess, options, tables, random, snake
+include ../karax/karax/prelude
 
 randomize()
 resetChess()
@@ -10,8 +10,30 @@ proc renderWelcome: VNode =
     section(class="hero is-large is-primary"):
       tdiv(class="hero-body"):
         tdiv(class="container"):
-          h1(class="title"): text"Dawid Kotliński"
-          h2(class="subtitle"): text"Jest to strona prezentująca moje projekty programistyczne"
+          h1(class="title"):
+            text"Dawid Kotliński"
+          h2(class="subtitle"):
+            text"Jest to strona prezentująca moje projekty programistyczne. "
+          p(class="content"):
+            a(class="button is-link", href="mailto: dawidkotlin@gmail.com"): text"dawidkotlin@gmail.com"
+
+proc renderLisp: VNode =
+  result = buildHtml:
+    section(class="hero is-medium is-dark"):
+      tdiv(class="hero-body"):
+        tdiv(class="container"):
+          tdiv(class="columns"):
+            tdiv(class="column is-half"):
+              h1(class="title"): text"Interpreter"
+              h2(class="subtitle"): text"Interpterer języka programowania inspirowanego Lispem"
+              p(class="content"):
+                ul:
+                  li text"Zawiera interaktywne środowisko programowania"
+                  li text"Umożliwia tworzenie własnych procedur i metod"
+                  li text"Obejmuje zmienne globalne i lokalne"
+                  li text"Procedury mogą być używane jako wartości (np. przypisywane do zmiennych)"
+            tdiv(class="column"):
+              img(src="data/lisp.png")
 
 proc renderStatichop: VNode =
   result = buildHtml:
@@ -20,7 +42,8 @@ proc renderStatichop: VNode =
         tdiv(class="container"):
           tdiv(class="columns"):
             tdiv(class="column is-half"):
-              h1(class="title"): text"Sklep internetowy"
+              h1(class="title"): text"Sklep"
+              h2(class="subtitle"): text"Przykładowy serwer sklepu internetowego"
               p(class="content"):
                 ul:
                   li text"Lista towarów może być filtrowana i sortowana"
@@ -28,7 +51,7 @@ proc renderStatichop: VNode =
                   li text"Obsługiwana jest rejestracja, logowanie, sesje, historia zakupów itp."
                   li text"Sklep jest wielojęzykowy"
                   li text"Bazą danych jest SQLite 3"
-                  li text "Napisane bez użycia \"frameworków\", wszystko napisane od zera"
+                  li text "Projekt nie używa dużych bibliotek; tworzenie i odczytywanie poleceń SQL, HTTP i elementów HTML jest w ramach projektu"
           br()
           video(autoplay="autoplay", loop="loop"):
             source(src="data/staticshop.webm", `type`="video/webm")
@@ -44,7 +67,7 @@ proc renderGenderdetect: VNode =
               p(class="content"):
                 ul:
                   li text"Determinuje płeć danej osoby na podstawie treści jej artykułu na wikipedii."
-                  li text"Przyjmuje jako argumenty zarówno imiona i linki"
+                  li text"Przyjmuje jako argumenty imiona lub linki"
                   li text"Analizuje anglo- i polskojęzyczne artykuły"
             tdiv(class="column"):
               img(src="data/genderdetect.png")
@@ -66,12 +89,13 @@ proc renderNationDetect: VNode =
 
 proc renderNetchess: VNode =
   result = buildHtml:
-    section(class="hero is-medium is-warning"):
+    section(class="hero is-medium is-info"):
       tdiv(class="hero-body"):
         tdiv(class="container"):
           tdiv(class="columns"):
             tdiv(class="column is-half"):
-              h1(class="title"): text"Szachy online"
+              h1(class="title"): text"Szachy"
+              h2(class="subtitle"): text"Gra w szachy pomiędzy dwoma graczami przez internet"
               p(class="content"):
                 ul:
                   li text"Komunikacja między klientami a serwerem ma miejsce za pomocą WebSocket"
@@ -81,32 +105,32 @@ proc renderNetchess: VNode =
             tdiv(class="column"):
               img(src="data/netchess.gif")
 
-proc renderSnake: VNode =
-  result = buildHtml:
-    section(class="hero is-medium is-success"):
-      tdiv(class="hero-body"):
-        tdiv(class="container"):
-          tdiv(class="columns"):
-            tdiv(class="column is-half"):
-              h1(class="title"): text"Snake"
-              h2(class="subtitle"):
-                if gameOver:
-                  text"Koniec gry"
-                elif snakeCanvasFocused:
-                  text"Używaj strzałek aby się poruszać"
-                else:
-                  text"Kliknij na okno po prawej aby zacząć grać"
-              button(class="button is-medium is-white", onClick=snake.start):
-                text"Zacznij od nowa"
-            tdiv(class="column is-half"):
-              canvas(class="has-background-white", id="snakeCanvas", width = $snake.canvasSize, height = $snake.canvasSize, tabIndex="1000"):
-                proc onKeyDown(ev: Event, n: VNode) = snake.onKeyDown(ev)
-                proc onFocus = snake.onFocus()
-                proc onFocusOut = snake.onFocusOut()
+# proc renderSnake: VNode =
+#   result = buildHtml:
+#     section(class="hero is-medium is-success"):
+#       tdiv(class="hero-body"):
+#         tdiv(class="container"):
+#           tdiv(class="columns"):
+#             tdiv(class="column is-half"):
+#               h1(class="title"): text"Snake"
+#               h2(class="subtitle"):
+#                 if gameOver:
+#                   text"Koniec gry"
+#                 elif snakeCanvasFocused:
+#                   text"Używaj strzałek aby się poruszać"
+#                 else:
+#                   text"Kliknij na okno po prawej aby zacząć grać"
+#               button(class="button is-medium is-white", onClick=snake.start):
+#                 text"Zacznij od nowa"
+#             tdiv(class="column is-half"):
+#               canvas(class="has-background-white", id="snakeCanvas", width = $snake.canvasSize, height = $snake.canvasSize, tabIndex="1000"):
+#                 proc onKeyDown(ev: Event, n: VNode) = snake.onKeyDown(ev)
+#                 proc onFocus = snake.onFocus()
+#                 proc onFocusOut = snake.onFocusOut()
 
 proc renderLocalChess: VNode =
   result = buildHtml:
-    section(class="hero is-medium is-dark"):
+    section(class="hero is-medium is-light"):
       tdiv(class="hero-body"):
         tdiv(class="container"):
           tdiv(class="columns"):
@@ -127,7 +151,7 @@ proc renderLocalChess: VNode =
                   else:
                     span(class="has-text-danger"): text"czerwonego"
                   text" gracza"
-              button(class="button is-light is-medium"):
+              button(class="button is-dark is-medium"):
                 text"Zacznij od nowa"
                 proc onClick = resetChess()
             tdiv(class="column"):
@@ -142,7 +166,7 @@ proc renderLocalChess: VNode =
                         elif hoveredPos in pieces and (here == hoveredPos or validDest(here)):
                           if pieces[hoveredPos].team == ctBlue: "is-info" else: "is-danger"
                         elif x mod 2 == y mod 2: "is-dark"
-                        else: "is-light"
+                        else: "is-white"
                       a(class = "button is-medium " & buttonColor):
                         if here in pieces:
                           let textColor =
@@ -166,6 +190,32 @@ proc renderLocalChess: VNode =
                           proc onMouseOut = onMouseOut here
                           proc onClick = onClick here
 
+proc renderSnake: VNode =
+  result = buildHtml:
+    section(class="hero is-medium is-light"):
+      tdiv(class="hero-body"):
+        tdiv(class="container"):
+          tdiv(class="columns"):
+            tdiv(class="column is-half"):
+              h1(class="title"): text"Snake"
+              h2(class="subtitle"): text"Klasyczna gra"
+              tdiv:
+                if snake.timeout == nil:
+                  button(class="button is-medium is-success"):
+                    text"Start"
+                    proc onClick = snake.start()
+                else:
+                  button(class="button is-medium is-danger"):
+                    text"Pauza"
+                    proc onClick = snake.pause()
+              br()
+              tdiv:
+                button(class="button is-medium is-dark"):
+                  text"Zacznij od nowa"
+                  proc onClick = snake.resetState()
+            tdiv(class="column is-half"):
+              renderSnakeBoard()
+
 type
   TodoItem = ref object
     str, id: cstring
@@ -179,7 +229,7 @@ var
 
 proc renderTodoList: VNode =
   result = buildHtml:
-    section(class="hero is-large is-light"):
+    section(class="hero is-medium is-light"):
       tdiv(class="hero-body"):
         tdiv(class="container"):
           tdiv(class="columns"):
@@ -203,8 +253,9 @@ proc renderTodoList: VNode =
                     h2(class="subtitle has-text-dark"): text"There are no items on your todo list"
                   else:
                     ul(class="menu-list"):
-                      for idx in countdown(todoItems.high, todoItems.low):
-                        let item = todoItems[idx]
+                      # for idx in countdown(todoItems.high, todoItems.low):
+                        # let item = todoItems[idx]
+                      for item in todoItems:
                         capture item:
                           li(id = item.id):
                             a:
@@ -217,15 +268,16 @@ proc renderTodoList: VNode =
                                   proc cb =
                                     todoItems.delete todoItems.find(item)
                                     redraw()
-                                  discard setTimeout(cb, 750)
+                                  discard setTimeout(cb, 500)
 
 setRenderer proc: VNode =
   result = buildHtml tdiv:
     renderWelcome()
     renderStatichop()
+    renderNetchess()
+    renderLisp()
     renderNationDetect()
     renderGenderDetect()
-    renderNetchess()
     renderLocalChess()
-    renderTodoList()
     # renderSnake()
+    renderTodoList()
