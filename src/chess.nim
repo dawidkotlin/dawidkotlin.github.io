@@ -90,15 +90,11 @@ proc onClick*(clickedPos: Vec2) =
     elif selectedPos in pieces and clickedPos in pieces[selectedPos].validMoves:
       if clickedPos in pieces and pieces[clickedPos].kind == pkKing:
         winner = some currentTeam
-        for piece in pieces.values:
-          piece.validMoves = @[]
       pieces[clickedPos] = pieces[selectedPos]
       pieces.del selectedPos
-      for pos in pieces.keys:
-        updateValidMoves pos
+      for pos in pieces.keys: updateValidMoves pos
       currentTeam = if currentTeam == ctRed: ctBlue else: ctRed
       selectedPos = (-1, -1)
-      discard
     else:
       selectedPos = (-1, -1)
 

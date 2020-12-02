@@ -5,18 +5,6 @@ randomize()
 resetChess()
 snake.resetState()
 
-proc renderWelcome: VNode =
-  result = buildHtml:
-    section(class="hero is-large is-primary"):
-      tdiv(class="hero-body"):
-        tdiv(class="container"):
-          h1(class="title"):
-            text"Dawid Kotliński"
-          h2(class="subtitle"):
-            text"Jest to strona prezentująca moje projekty programistyczne. "
-          p(class="content"):
-            a(class="button is-link", href="mailto: dawidkotlin@gmail.com"): text"dawidkotlin@gmail.com"
-
 proc renderLisp: VNode =
   result = buildHtml:
     section(class="hero is-medium is-dark"):
@@ -94,7 +82,7 @@ proc renderNetchess: VNode =
         tdiv(class="container"):
           tdiv(class="columns"):
             tdiv(class="column is-half"):
-              h1(class="title"): text"Szachy"
+              h1(class="title"): text"Szachy internetowe"
               h2(class="subtitle"): text"Gra w szachy pomiędzy dwoma graczami przez internet"
               p(class="content"):
                 ul:
@@ -139,9 +127,10 @@ proc renderLocalChess: VNode =
               h2(class="subtitle"):
                 if winner.isSome:
                   text"Wygrał "
-                  if currentTeam == ctBlue:
+                  case winner.get
+                  of ctBlue:
                     span(class="has-text-info"): text"niebieski"
-                  else:
+                  of ctRed:
                     span(class="has-text-danger"): text"czerwony"
                   text" gracz!"
                 else:
@@ -151,7 +140,7 @@ proc renderLocalChess: VNode =
                   else:
                     span(class="has-text-danger"): text"czerwonego"
                   text" gracza"
-              button(class="button is-dark is-medium"):
+              button(class = if winner == some(ctRed): "button is-danger is-medium" elif winner == some(ctBlue): "button is-info is-medium" else: "button is-dark is-medium"):
                 text"Zacznij od nowa"
                 proc onClick = resetChess()
             tdiv(class="column"):
@@ -160,14 +149,18 @@ proc renderLocalChess: VNode =
                   tdiv(class="is-flex"):
                     for x in 0 ..< 8:
                       let here = (x, y)
-                      let buttonColor = 
+                      let bgColor =
                         if selectedPos in pieces and (here == selectedPos or validDest(here)):
-                          if pieces[selectedPos].team == ctBlue: "is-info" else: "is-danger"
+                          if pieces[selectedPos].team == ctBlue: "is-info"
+                          else: "is-danger"
                         elif hoveredPos in pieces and (here == hoveredPos or validDest(here)):
-                          if pieces[hoveredPos].team == ctBlue: "is-info" else: "is-danger"
-                        elif x mod 2 == y mod 2: "is-dark"
-                        else: "is-white"
-                      a(class = "button is-medium " & buttonColor):
+                          if pieces[hoveredPos].team == ctBlue: "is-info"
+                          else: "is-danger"
+                        elif x mod 2 == y mod 2:
+                          "is-dark"
+                        else:
+                          "is-white"
+                      a(class = "button is-medium " & bgColor):
                         if here in pieces:
                           let textColor =
                             if here == selectedPos: "has-text-warning"
@@ -238,7 +231,7 @@ proc renderTodoList: VNode =
               h2(class="subtitle"): text"Interaktywna lista zadań"
             tdiv(class="column is-half"):
               tdiv(class="box"):
-                input(class="input", id="todoInput", placeholder="Dodaj nowe zadanie"):
+                input(class="input", id="todoInput", placeholder="Dodaj nowe zadanie..."):
                   proc onKeyDown(event: Event, node: VNode) =
                     let value = ($node.value).strip().replace("  ", " ")
                     if event.KeyboardEvent.key == "Enter" and value != "":
@@ -255,29 +248,49 @@ proc renderTodoList: VNode =
                     ul(class="menu-list"):
                       # for idx in countdown(todoItems.high, todoItems.low):
                         # let item = todoItems[idx]
+                      proc renderTodoItem(item: TodoItem): VNode =
+                        buildHtml li(id=item.id):
+                          a:
+                            if item.done:
+                              strikethrough text item.str
+                            else:
+                              text item.str
+                              proc onClick =
+                                item.done = true
+                                proc cb =
+                                  todoItems.delete todoItems.find(item)
+                                  redraw()
+                                discard setTimeout(cb, 500)
                       for item in todoItems:
-                        capture item:
-                          li(id = item.id):
-                            a:
-                              if item.done:
-                                strikethrough text item.str
-                              else:
-                                text item.str
-                                proc onClick =
-                                  item.done = true
-                                  proc cb =
-                                    todoItems.delete todoItems.find(item)
-                                    redraw()
-                                  discard setTimeout(cb, 500)
+                        renderTodoItem item
 
 setRenderer proc: VNode =
-  result = buildHtml tdiv:
-    renderWelcome()
-    renderStatichop()
-    renderNetchess()
-    renderLisp()
-    renderNationDetect()
-    renderGenderDetect()
-    renderLocalChess()
-    # renderSnake()
-    renderTodoList()
+  result = buildHtml:
+    tdiv:
+      # nav(class="navbar is-dark", role="navigation", aria-label="main-navigation"):
+      #   tdiv(class="navbar-brand")
+      #   a(role="button", class="navbar-burger burger", aria-label="menu", aria-expanded="false"):
+      #     span(aria-hidden="true")
+      #     span(aria-hidden="true")
+      #     span(aria-hidden="true")
+      #   tdiv(class="navbar-menu"):
+      #     tdiv(class="navbar-end"):
+      #       a(class="navbar-item", href="mailto: dawidkotlin@gmail.com"): text"dawidkotlin@gmail.com"
+      ## Welcome
+      section(class="hero is-large is-primary"):
+        tdiv(class="hero-body"):
+          tdiv(class="container"):
+            h1(class="title"):
+              text"Dawid Kotliński"
+            h2(class="subtitle"):
+              text"Jest to strona prezentująca moje projekty programistyczne."
+            tdiv(class="content"):
+              a(class="button is-primary", href="mailto: dawidkotlin@gmail.com"): text"Email: dawidkotlin@gmail.com"
+      renderStatichop()
+      renderNetchess()
+      renderLisp()
+      renderNationDetect()
+      renderGenderDetect()
+      renderLocalChess()
+      # renderSnake()
+      renderTodoList()
