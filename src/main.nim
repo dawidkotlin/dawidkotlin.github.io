@@ -15,6 +15,7 @@ proc renderLisp: VNode =
               h1(class="title"): text"Interpreter"
               h2(class="subtitle"): text"Interpterer języka programowania inspirowanego Lispem"
               p(class="content"):
+                a(class="button is-dark", href="https://github.com/dawidkotlin/lisp"): text"Github"
                 ul:
                   li text"Zawiera interaktywne środowisko programowania"
                   li text"Umożliwia tworzenie własnych procedur i metod"
@@ -33,6 +34,7 @@ proc renderStatichop: VNode =
               h1(class="title"): text"Sklep"
               h2(class="subtitle"): text"Przykładowy serwer sklepu internetowego"
               p(class="content"):
+                a(class="button is-info", href="https://github.com/dawidkotlin/staticshop"): text"Github"
                 ul:
                   li text"Lista towarów może być filtrowana i sortowana"
                   li text"Elementy mogą być sortowane po nazwie"
@@ -53,6 +55,7 @@ proc renderGenderdetect: VNode =
             tdiv(class="column is-half"):
               h1(class="title"): text"Identyfikator płci"
               p(class="content"):
+                a(class="button is-dark", href="https://github.com/dawidkotlin/genderdetect"): text"Github"
                 ul:
                   li text"Determinuje płeć danej osoby na podstawie treści jej artykułu na wikipedii."
                   li text"Przyjmuje jako argumenty imiona lub linki"
@@ -69,6 +72,7 @@ proc renderNationDetect: VNode =
             tdiv(class="column is-half"):
               h1(class="title"): text"Identyfikator narodowości"
               p(class="content"):
+                a(class="button is-dark", href="https://github.com/dawidkotlin/nationdetect"): text"Github"
                 ul:
                   li text"Determinuje narodowość danej osoby na podstawie treści jej artykułu na wikipedii."
                   li text"Przyjmuje jako argumenty zarówno imiona i linki"
@@ -85,6 +89,7 @@ proc renderNetchess: VNode =
               h1(class="title"): text"Szachy internetowe"
               h2(class="subtitle"): text"Gra w szachy pomiędzy dwoma graczami przez internet"
               p(class="content"):
+                a(class="button is-info", href="https://github.com/dawidkotlin/netchess"): text"Github"
                 ul:
                   li text"Komunikacja między klientami a serwerem ma miejsce za pomocą WebSocket"
                   li text"Klientem jest przeglądarka"
@@ -183,31 +188,31 @@ proc renderLocalChess: VNode =
                           proc onMouseOut = onMouseOut here
                           proc onClick = onClick here
 
-proc renderSnake: VNode =
-  result = buildHtml:
-    section(class="hero is-medium is-light"):
-      tdiv(class="hero-body"):
-        tdiv(class="container"):
-          tdiv(class="columns"):
-            tdiv(class="column is-half"):
-              h1(class="title"): text"Snake"
-              h2(class="subtitle"): text"Klasyczna gra"
-              tdiv:
-                if snake.timeout == nil:
-                  button(class="button is-medium is-success"):
-                    text"Start"
-                    proc onClick = snake.start()
-                else:
-                  button(class="button is-medium is-danger"):
-                    text"Pauza"
-                    proc onClick = snake.pause()
-              br()
-              tdiv:
-                button(class="button is-medium is-dark"):
-                  text"Zacznij od nowa"
-                  proc onClick = snake.resetState()
-            tdiv(class="column is-half"):
-              renderSnakeBoard()
+# proc renderSnake: VNode =
+#   result = buildHtml:
+#     section(class="hero is-medium is-light"):
+#       tdiv(class="hero-body"):
+#         tdiv(class="container"):
+#           tdiv(class="columns"):
+#             tdiv(class="column is-half"):
+#               h1(class="title"): text"Snake"
+#               h2(class="subtitle"): text"Klasyczna gra"
+#               tdiv:
+#                 if snake.timeout == nil:
+#                   button(class="button is-medium is-success"):
+#                     text"Start"
+#                     proc onClick = snake.start()
+#                 else:
+#                   button(class="button is-medium is-danger"):
+#                     text"Pauza"
+#                     proc onClick = snake.pause()
+#               br()
+#               tdiv:
+#                 button(class="button is-medium is-dark"):
+#                   text"Zacznij od nowa"
+#                   proc onClick = snake.resetState()
+#             tdiv(class="column is-half"):
+#               renderSnakeBoard()
 
 type
   TodoItem = ref object
