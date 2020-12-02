@@ -10439,6 +10439,8 @@ function renderNetchess_14610066() {
     F.line = 92;
     setAttr_13575105(tmp_14610077, "target", "_blank");
     F.line = 92;
+    setAttr_13575105(tmp_14610077, "target", "_blank");
+    F.line = 92;
     add_13625072(tmp_14610077, text_13635582(makeNimstrLit("Github")));
     F.line = 92;
     add_13625072(tmp_14610076, tmp_14610077);
