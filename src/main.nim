@@ -15,7 +15,7 @@ proc renderLisp: VNode =
               h1(class="title"): text"Interpreter"
               h2(class="subtitle"): text"Interpterer języka programowania inspirowanego Lispem"
               p(class="content"):
-                a(class="button is-dark", href="https://github.com/dawidkotlin/lisp"): text"Github"
+                a(class="button is-dark", href="https://github.com/dawidkotlin/lisp", target="_blank"): text"Github"
                 ul:
                   li text"Zawiera interaktywne środowisko programowania"
                   li text"Umożliwia tworzenie własnych procedur i metod"
@@ -34,7 +34,7 @@ proc renderStatichop: VNode =
               h1(class="title"): text"Sklep"
               h2(class="subtitle"): text"Przykładowy serwer sklepu internetowego"
               p(class="content"):
-                a(class="button is-info", href="https://github.com/dawidkotlin/staticshop"): text"Github"
+                a(class="button is-info", href="https://github.com/dawidkotlin/staticshop", target="_blank"): text"Github"
                 ul:
                   li text"Lista towarów może być filtrowana i sortowana"
                   li text"Elementy mogą być sortowane po nazwie"
@@ -55,7 +55,7 @@ proc renderGenderdetect: VNode =
             tdiv(class="column is-half"):
               h1(class="title"): text"Identyfikator płci"
               p(class="content"):
-                a(class="button is-dark", href="https://github.com/dawidkotlin/genderdetect"): text"Github"
+                a(class="button is-dark", href="https://github.com/dawidkotlin/genderdetect", target="_blank"): text"Github"
                 ul:
                   li text"Determinuje płeć danej osoby na podstawie treści jej artykułu na wikipedii."
                   li text"Przyjmuje jako argumenty imiona lub linki"
@@ -72,7 +72,7 @@ proc renderNationDetect: VNode =
             tdiv(class="column is-half"):
               h1(class="title"): text"Identyfikator narodowości"
               p(class="content"):
-                a(class="button is-dark", href="https://github.com/dawidkotlin/nationdetect"): text"Github"
+                a(class="button is-dark", href="https://github.com/dawidkotlin/nationdetect", target="_blank"): text"Github"
                 ul:
                   li text"Determinuje narodowość danej osoby na podstawie treści jej artykułu na wikipedii."
                   li text"Przyjmuje jako argumenty zarówno imiona i linki"
@@ -89,7 +89,7 @@ proc renderNetchess: VNode =
               h1(class="title"): text"Szachy internetowe"
               h2(class="subtitle"): text"Gra w szachy pomiędzy dwoma graczami przez internet"
               p(class="content"):
-                a(class="button is-info", href="https://github.com/dawidkotlin/netchess"): text"Github"
+                a(class="button is-info", href="https://github.com/dawkot/netchess", target="_blank"): text"Github"
                 ul:
                   li text"Komunikacja między klientami a serwerem ma miejsce za pomocą WebSocket"
                   li text"Klientem jest przeglądarka"

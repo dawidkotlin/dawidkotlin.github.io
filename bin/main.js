@@ -10303,6 +10303,8 @@ function renderStatichop_14595078() {
     F.line = 37;
     setAttr_13575105(tmp_14595089, "href", "https://github.com/dawidkotlin/staticshop");
     F.line = 37;
+    setAttr_13575105(tmp_14595089, "target", "_blank");
+    F.line = 37;
     add_13625072(tmp_14595089, text_13635582(makeNimstrLit("Github")));
     F.line = 37;
     add_13625072(tmp_14595088, tmp_14595089);
@@ -10433,7 +10435,9 @@ function renderNetchess_14610066() {
     F.line = 92;
     tmp_14610077.class = "button is-info";
     F.line = 92;
-    setAttr_13575105(tmp_14610077, "href", "https://github.com/dawidkotlin/netchess");
+    setAttr_13575105(tmp_14610077, "href", "https://github.com/dawkot/netchess");
+    F.line = 92;
+    setAttr_13575105(tmp_14610077, "target", "_blank");
     F.line = 92;
     add_13625072(tmp_14610077, text_13635582(makeNimstrLit("Github")));
     F.line = 92;
@@ -10547,6 +10551,8 @@ function renderLisp_14591116() {
     F.line = 18;
     setAttr_13575105(tmp_14591127, "href", "https://github.com/dawidkotlin/lisp");
     F.line = 18;
+    setAttr_13575105(tmp_14591127, "target", "_blank");
+    F.line = 18;
     add_13625072(tmp_14591127, text_13635582(makeNimstrLit("Github")));
     F.line = 18;
     add_13625072(tmp_14591126, tmp_14591127);
@@ -10651,6 +10657,8 @@ function renderNationDetect_14605070() {
     F.line = 75;
     setAttr_13575105(tmp_14605080, "href", "https://github.com/dawidkotlin/nationdetect");
     F.line = 75;
+    setAttr_13575105(tmp_14605080, "target", "_blank");
+    F.line = 75;
     add_13625072(tmp_14605080, text_13635582(makeNimstrLit("Github")));
     F.line = 75;
     add_13625072(tmp_14605079, tmp_14605080);
@@ -10742,6 +10750,8 @@ function renderGenderdetect_14600090() {
     tmp_14600100.class = "button is-dark";
     F.line = 58;
     setAttr_13575105(tmp_14600100, "href", "https://github.com/dawidkotlin/genderdetect");
+    F.line = 58;
+    setAttr_13575105(tmp_14600100, "target", "_blank");
     F.line = 58;
     add_13625072(tmp_14600100, text_13635582(makeNimstrLit("Github")));
     F.line = 58;
